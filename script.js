@@ -1,59 +1,8 @@
 
-// Change this
-const meetDate = new Date('2026-12-31T18:00:00+05:30');
-
-const quotes = [
- 'The universe is made of stories, not atoms.',
- 'Maybe we are all stories in the end.',
- 'One day closer.',
- 'Distance is temporary.'
-];
-
-const startDate = new Date();
-
-function updateCountdown(){
- const now = new Date();
- const diff = meetDate - now;
-
- if(diff <= 0){
-   document.getElementById('countdown').innerHTML =
-   '💥 The wait is over! ❤️';
-   return;
- }
-
- const d = Math.floor(diff/86400000);
- const h = Math.floor(diff%86400000/3600000);
- const m = Math.floor(diff%3600000/60000);
- const s = Math.floor(diff%60000/1000);
-
- document.getElementById('countdown').innerHTML =
- `${d}d ${h}h ${m}m ${s}s`;
-
- const progress =
- (now - startDate)/(meetDate - startDate);
-
- document.getElementById('boy').style.left =
- `${Math.max(0,Math.min(progress*85,85))}%`;
-}
-
-setInterval(updateCountdown,1000);
-updateCountdown();
-
-const stars=document.getElementById('stars');
-
-for(let i=0;i<80;i++){
- const star=document.createElement('div');
- star.className='star';
- star.innerHTML='⭐';
- star.style.left=Math.random()*100+'vw';
- star.style.top=Math.random()*100+'vh';
-
- star.onclick=()=>{
-   const box=document.getElementById('quoteBox');
-   box.innerText=quotes[Math.floor(Math.random()*quotes.length)];
-   box.style.display='block';
-   setTimeout(()=>box.style.display='none',3000);
- };
-
- stars.appendChild(star);
-}
+const meetDate=new Date('2026-12-31T18:00:00+05:30');
+const quotes=['The universe is made of stories, not atoms.','One day closer.'];
+beginBtn.onclick=()=>{intro.style.display='none';main.style.display='block';};
+for(let i=0;i<150;i++){let s=document.createElement('div');s.className='star';s.innerHTML='✦';s.style.left=Math.random()*100+'vw';s.style.top=Math.random()*100+'vh';s.onclick=()=>{quoteBox.innerText=quotes[Math.floor(Math.random()*quotes.length)];};stars.appendChild(s);}
+const startDate=new Date();
+function tick(){let d=meetDate-new Date();if(d<0)return;days.textContent=Math.floor(d/86400000);hours.textContent=Math.floor(d%86400000/3600000);minutes.textContent=Math.floor(d%3600000/60000);seconds.textContent=Math.floor(d%60000/1000);let p=(new Date()-startDate)/(meetDate-startDate);boy.style.left=Math.min(85,p*85)+'%';}
+setInterval(tick,1000);tick();
