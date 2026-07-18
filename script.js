@@ -21,6 +21,7 @@ let loggedIn = false;
 let currentPinInput = "";
 let characterState = "default"; // 'default', 'scenario', 'wish'
 let activeScenarioTimeout = null;
+let activeGirlReplyTimeout = null;
 
 // Canvas Initialization
 const canvas = document.getElementById("sky-canvas");
@@ -718,6 +719,10 @@ function resetCharacters() {
     boyImg.src = "Boy_Walk.gif";
     girlImg.src = "Girl_Wait.gif";
     hideBubbles();
+    if (activeGirlReplyTimeout) {
+        clearTimeout(activeGirlReplyTimeout);
+        activeGirlReplyTimeout = null;
+    }
 }
 
 function triggerRandomScenario() {
@@ -800,8 +805,21 @@ function triggerRandomScenario() {
     boyImg.src = pick.boyGif;
     girlImg.src = pick.girlGif;
 
+    // Boy speaks first
     showBubble("boy", pick.boyText);
-    showBubble("girl", pick.girlText);
+
+    // Clear any pending girl replies
+    if (activeGirlReplyTimeout) {
+        clearTimeout(activeGirlReplyTimeout);
+        activeGirlReplyTimeout = null;
+    }
+
+    // Girl responds 2 seconds later for synchronized dialogue
+    activeGirlReplyTimeout = setTimeout(() => {
+        if (characterState === "scenario") {
+            showBubble("girl", pick.girlText);
+        }
+    }, 2000);
 
     if (activeScenarioTimeout) clearTimeout(activeScenarioTimeout);
 
@@ -880,6 +898,10 @@ function triggerWishArrival(x, y) {
     // 2. Change characters state to Wish/Flirty
     characterState = "wish";
     if (activeScenarioTimeout) clearTimeout(activeScenarioTimeout);
+    if (activeGirlReplyTimeout) {
+        clearTimeout(activeGirlReplyTimeout);
+        activeGirlReplyTimeout = null;
+    }
 
     boyImg.src = "Boy_Flirty.gif";
     showBubble("boy", "For you, my star! ✨💖");
