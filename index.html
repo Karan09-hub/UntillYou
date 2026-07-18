@@ -1,1 +1,160 @@
-<!DOCTYPE html><html><head><meta charset='UTF-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>The Universe Leads To You</title><link rel='stylesheet' href='style.css'></head><body><div id='intro' class='active'><h1>The universe is made of stories, not atoms.</h1><p>And this story leads to Payal.</p><button id='beginBtn'>✨ Begin Journey</button></div><div id='main'><div id='stars'></div><h1>The Universe Leads To You</h1><div class='countdown'><span id='days'></span> Days | <span id='hours'></span> Hours | <span id='minutes'></span> Minutes | <span id='seconds'></span> Seconds</div><div class='journey'><svg id='boy' viewBox='0 0 100 120'><circle cx='50' cy='25' r='18'/><rect x='35' y='45' width='30' height='35'/></svg><svg id='girl' viewBox='0 0 100 120'><circle cx='50' cy='25' r='18'/><polygon points='50,45 25,105 75,105'/></svg></div><div id='quoteBox'></div></div><script src='script.js'></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Until You ❤️</title>
+    <!-- Favicon link (Optional, simple emoji fallback) -->
+    <link rel="icon"
+        href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Canvas for stars, shooting stars, and fireworks -->
+    <canvas id="sky-canvas"></canvas>
+
+    <!-- Ambient Aura Gradients for high-end look -->
+    <div class="aura aura-red"></div>
+    <div class="aura aura-blue"></div>
+
+    <!-- MAIN WRAPPER -->
+    <div class="app-container">
+
+        <!-- LOGIN OVERLAY -->
+        <div id="login-screen" class="screen active">
+            <div class="glass-card login-card">
+                <div class="heart-pulse">❤️</div>
+                <h2>Guess the most important date</h2>
+                <p class="subtitle">Enter the PIN to reveal our countdown</p>
+
+                <!-- PIN Display -->
+                <div class="pin-display-container">
+                    <div class="pin-dots">
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                        <span class="dot"></span>
+                    </div>
+                    <input type="password" id="pin-input" maxlength="4" readonly autocomplete="off">
+                </div>
+
+                <!-- PIN Keypad -->
+                <div class="pin-keypad">
+                    <button class="key-btn" data-val="1">1</button>
+                    <button class="key-btn" data-val="2">2</button>
+                    <button class="key-btn" data-val="3">3</button>
+                    <button class="key-btn" data-val="4">4</button>
+                    <button class="key-btn" data-val="5">5</button>
+                    <button class="key-btn" data-val="6">6</button>
+                    <button class="key-btn" data-val="7">7</button>
+                    <button class="key-btn" data-val="8">8</button>
+                    <button class="key-btn" data-val="9">9</button>
+                    <button class="key-btn control-btn delete-btn" data-val="del">⌫</button>
+                    <button class="key-btn" data-val="0">0</button>
+                    <button class="key-btn control-btn clear-btn" data-val="clear">C</button>
+                </div>
+
+                <div id="login-error" class="error-msg">Incorrect PIN. Try again, love!</div>
+            </div>
+        </div>
+
+        <!-- MAIN DASHBOARD -->
+        <div id="dashboard-screen" class="screen">
+            <header class="dashboard-header">
+                <h1 class="glow-text">Days Until You</h1>
+                <p class="love-subtitle">Every second brings us closer...</p>
+            </header>
+
+            <!-- Countdown Container -->
+            <div class="countdown-container">
+                <div class="timer-card">
+                    <span class="timer-val" id="days-val">00</span>
+                    <span class="timer-lbl">Days</span>
+                </div>
+                <div class="timer-card">
+                    <span class="timer-val" id="hours-val">00</span>
+                    <span class="timer-lbl">Hours</span>
+                </div>
+                <div class="timer-card">
+                    <span class="timer-val" id="minutes-val">00</span>
+                    <span class="timer-lbl">Minutes</span>
+                </div>
+                <div class="timer-card">
+                    <span class="timer-val" id="seconds-val">00</span>
+                    <span class="timer-lbl">Seconds</span>
+                </div>
+            </div>
+
+            <!-- Hint overlay for Shooting Stars -->
+            <div class="shooting-star-hint">
+                <span class="sparkle">✨</span> Click a shooting star to make a wish <span class="sparkle">✨</span>
+            </div>
+
+            <!-- Floating Quote / Wish confirmation container -->
+            <div id="quote-card" class="glass-card quote-card hidden">
+                <button class="close-quote-btn" id="close-quote">&times;</button>
+                <div class="quote-heart">💖</div>
+                <p id="quote-text" class="quote-content"></p>
+                <div class="wish-reveal hidden" id="wish-reveal-text">
+                    Your wish has been sent: <strong id="sent-wish">""</strong>
+                </div>
+            </div>
+
+            <!-- BOTTOM CHARACTER TRACK -->
+            <div class="track-wrapper">
+                <div class="walking-track" id="walking-track">
+                    <!-- Progress Line (Red/Blue gradient line) -->
+                    <div class="track-line"></div>
+
+                    <!-- Characters Container -->
+                    <div class="character-holder" id="boy-holder">
+                        <div class="speech-bubble hidden" id="boy-bubble">Hi there!</div>
+                        <img src="Boy_Walk.gif" id="boy-img" class="character-img" alt="Boy">
+                        <div class="character-label">Boy</div>
+                    </div>
+
+                    <div class="character-holder" id="girl-holder">
+                        <div class="speech-bubble hidden" id="girl-bubble">Waiting...</div>
+                        <img src="Girl_Wait.gif" id="girl-img" class="character-img" alt="Girl">
+                        <div class="character-label">Girl</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAKE A WISH MODAL -->
+        <div id="wish-modal" class="modal-overlay hidden">
+            <div class="glass-card modal-card animate-pop">
+                <h3>Make a Wish ✨</h3>
+                <p>Type a wish to send it to the stars...</p>
+                <textarea id="wish-input" placeholder="I wish we could..." maxlength="150" rows="3"></textarea>
+                <div class="modal-buttons">
+                    <button class="btn btn-secondary" id="close-wish-modal">Cancel</button>
+                    <button class="btn btn-primary" id="submit-wish">Send to him 🚀</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SVG Filter for removing white background from GIFs -->
+    <svg width="0" height="0" style="position: absolute; pointer-events: none;">
+        <defs>
+            <filter id="remove-white-bg" color-interpolation-filters="sRGB">
+                <feColorMatrix type="matrix" values="
+                    1 0 0 0 0
+                    0 1 0 0 0
+                    0 0 1 0 0
+                    -1.5 -1.5 -1.5 4 0
+                " />
+            </filter>
+        </defs>
+    </svg>
+
+    <!-- Script loading -->
+    <script src="script.js"></script>
+</body>
+
+</html>
